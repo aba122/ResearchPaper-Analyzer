@@ -25,7 +25,13 @@ if env_file.exists():
 
 backend_dir = Path(__file__).parent / "backend"
 sys.path.insert(0, str(backend_dir))
-sys.path.insert(0, str(Path("/Users/wulinxie/.claude/skills/paper-analyzer/scripts")))
+
+# paper-analyzer scripts 路径：优先读 env，回退到默认位置
+_scripts_dir = os.getenv(
+    "PAPER_ANALYZER_SCRIPTS_DIR",
+    str(Path.home() / ".claude/skills/paper-analyzer/scripts"),
+)
+sys.path.insert(0, _scripts_dir)
 
 # 注意：不移除代理变量
 # - MinerU Python session 用 trust_env=False 忽略代理
@@ -316,16 +322,16 @@ if __name__ == "__main__":
 
     # ── 示例2：本地 PDF（文件上传模式）─────────────────────────
     # asyncio.run(analyze_local_pdf(
-    #     pdf_path=Path("/Users/wulinxie/Desktop/UPDGD-Net.pdf"),
-    #     title="UPDGD-Net",
+    #     pdf_path=Path("/path/to/your/paper.pdf"),
+    #     title="论文标题",
     #     style="academic",
-    #     tags=["Multi-View"],
+    #     tags=["标签"],
     # ))
 
-    # ── Kimi K2（URL 模式，推荐）────────────────────────────────
+    # ── 示例3：运行示例──────────────────────────────────────────
     asyncio.run(analyze_url(
-        pdf_url="https://arxiv.org/pdf/2507.20534",
-        title="Kimi K2 Open Agentic Intelligence",
+        pdf_url="https://arxiv.org/pdf/2501.09999",
+        title="论文标题",
         style="academic",
-        tags=["LLM", "Agent"],
+        tags=["标签"],
     ))

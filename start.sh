@@ -24,13 +24,24 @@ sleep 1
 # ────────────────────────────────────────────────────────────────────────────
 # 确保使用正确的 Python（miniconda with OpenSSL 3.0）
 # ────────────────────────────────────────────────────────────────────────────
-PYTHON_BIN="/Users/wulinxie/miniconda3/bin/python3"
+# 自动探测 miniconda/conda Python（可通过 .env 中的 PYTHON_BIN 覆盖）
+if [ -z "$PYTHON_BIN" ] || [ ! -f "$PYTHON_BIN" ]; then
+  if [ -f "$HOME/miniconda3/bin/python3" ]; then
+    PYTHON_BIN="$HOME/miniconda3/bin/python3"
+  elif [ -f "$HOME/anaconda3/bin/python3" ]; then
+    PYTHON_BIN="$HOME/anaconda3/bin/python3"
+  elif [ -f "$HOME/opt/miniconda3/bin/python3" ]; then
+    PYTHON_BIN="$HOME/opt/miniconda3/bin/python3"
+  else
+    PYTHON_BIN="$(command -v python3)"
+  fi
+fi
 
 if [ ! -f "$PYTHON_BIN" ]; then
-  echo "❌ 未找到 miniconda Python: $PYTHON_BIN"
-  echo "请安装 miniconda 或修改 start.sh 中的 PYTHON_BIN 路径"
+  echo "❌ 未找到合适的 Python，请在 .env 中设置 PYTHON_BIN=/path/to/python3"
   exit 1
 fi
+echo "使用 Python: $PYTHON_BIN"
 
 # 检查 venv 是否用正确的 Python 创建（必须是 OpenSSL 3.0+）
 cd "$ROOT/backend"
