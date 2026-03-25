@@ -1,0 +1,38 @@
+# 环境变量（含敏感 token）
+.env
+.env.local
+.env.*.local
+
+# Python
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+**/__pycache__/
+**/*.pyc
+*.pyo
+
+# 论文缓存与图片（体积大，本地数据）
+backend/images/
+backend/papers/
+backend/paper_cache/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# 克隆的 GitHub 仓库（代码分析临时目录）
+backend/repos/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# 分析输出缓存（本地数据，体积大）
+backend/analysis_output/
+backend/videorag_output/
+backend/*.pdf
+backend/*.md
